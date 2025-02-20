@@ -1,0 +1,2 @@
+### Recuperar los pedidos (necesita autenticación)
+GET http://localhost:3000/api/tareas

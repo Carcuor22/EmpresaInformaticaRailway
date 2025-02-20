@@ -1,0 +1,50 @@
+### Recuperar un proyecto por id_proyecto
+GET http://localhost:3000/api/proyectos/36
+
+###
+
+GET http://localhost:3000/api/proyectos
+
+###
+
+POST http://localhost:3000/api/proyectos
+Content-Type: application/json
+
+{
+    "nombre": "Nuevo proyecto",
+    "descripcion": "Descripción detallada del proyecto",
+    "fecha_inicio": "2025-02-01",
+    "fecha_fin": "2025-03-01"
+}
+
+###
+# Borrado de un proyecto que no existe (404)
+DELETE http://localhost:3000/api/proyectos/99
+
+###
+# Borrado de un proyecto que existe (204)
+DELETE http://localhost:3000/api/proyectos/34
+
+### Actualización de un proyecto
+PUT http://localhost:3000/api/proyectos/45
+Content-Type: application/json
+
+{
+    "id_proyecto": 45,
+    "nombre": "Proyecto actualizado",
+    "descripcion": "Actualización de los detalles del proyecto",
+    "fecha_inicio": "2025-01-15",
+    "fecha_fin": "2025-02-15"
+}
+
+### Actualización de un proyecto BAD REQUEST
+PUT http://localhost:3000/api/proyectos/82
+Content-Type: application/json
+
+{
+    "id_proyecto": 45,
+    "nombre": "Proyecto con error",
+    "descripcion": "Este proyecto tiene un error en los datos enviados",
+    "fecha_inicio": "2025-03-01",
+    "fecha_fin": "2025-02-01"
+}
