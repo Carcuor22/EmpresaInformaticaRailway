@@ -1,5 +1,7 @@
 // Importar libreria para manejo de ficheros de configuración
-require("dotenv").config();
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV || 'development'}`
+});
 // Importar fichero de configuración con variables de entorno
 const config = require("./config/config");
 // Importar librería express --> web server
@@ -16,22 +18,20 @@ const tareaRoutes = require("./routes/tareaRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 // Configurar middleware para analizar JSON en las solicitudes
 app.use(express.json());
 
 // Configurar CORS para admitir cualquier origen
-// app.use(cors()); // No permitiría el envío de cookies
+//app.use(cors()); // No permitiría el envío de cookies
 
-// Configurar CORS para admitir el origen del frontend en desarrollo
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Permitir el frontend en desarrollo
-    credentials: true, // Permitir envío de cookies
-  })
-);
+if(process.env.NODE_ENV === 'development'){
+  app.use(cors()); // No permitir
+}
+
 // Habilitar el análisis de cookies
-app.use(cookieParser());
+//app.use(cookieParser());
 
 // Configurar rutas de la API Rest
 app.use("/api/proyectos", proyectoRoutes);
@@ -48,6 +48,10 @@ app.get("*", (req, res) => {
 });
 
 // Iniciar el servidor
-app.listen(config.port, () => {
-  console.log(`Servidor escuchando en el puerto ${config.port}`);
-});
+if(process.env.NODE_ENV !== "test"){
+  app.listen(config.port, () => {
+    console.log(`Servidor escuchando en el puerto ${config.port}`);
+  });
+}
+
+module.exports = app; // Exportar el módulo app para ser usado en los tests
